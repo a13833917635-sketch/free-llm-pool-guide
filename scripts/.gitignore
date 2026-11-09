@@ -1,0 +1,24 @@
+# gateway-console.ps1 运行时会用到 newapi/ 和 litellm/ 两个目录。
+# 这些目录里可能含有真实密钥（尤其 litellm/config.yaml），
+# 一律不进 Git，只提交脚本本身。
+
+# 两个网关目录（含真配置、真密钥、日志、运行数据）
+newapi/
+litellm/
+
+# 真实配置 / 密钥 / 环境文件，防误提交
+config.yaml
+*.local.yaml
+.env
+.env.*
+*secret*
+*credential*
+*.key
+
+# 运行时产物
+*.log
+data/
+logs/
+_cache/
+_tmp/
+__pycache__/

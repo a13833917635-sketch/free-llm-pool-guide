@@ -87,6 +87,9 @@ free-llm-pool-guide/
 │   └── FAQ.md                 ← 常见坑与答疑
 ├── config/
 │   └── litellm.config.example.yaml  ← 限流代理配置模板（全占位符）
+├── scripts/
+│   ├── gateway-console.ps1    ← 一键控制台：同时启停 new-api + LiteLLM
+│   └── .gitignore             ← 挡住真配置/真密钥误提交
 ├── .gitignore                 ← 防止真密钥误提交
 └── LICENSE                    ← 开源协议
 ```
