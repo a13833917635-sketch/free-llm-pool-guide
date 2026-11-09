@@ -1,0 +1,32 @@
+# ===== 防止真实密钥/本地配置误提交（最重要）=====
+# 真实配置只允许在本地存在，绝不进 Git
+litellm.config.yaml
+*.local.yaml
+*.local.yml
+config/litellm.config.yaml
+config/*.secret.yaml
+
+# 环境变量文件（常用来存密钥）
+.env
+.env.*
+!.env.example
+
+# 任何可能的密钥/凭据文件
+*secret*
+*credential*
+*apikey*
+*.key
+*.pem
+
+# ===== 运行时产物 =====
+__pycache__/
+*.pyc
+*.log
+logs/
+node_modules/
+.venv/
+venv/
+
+# ===== 系统文件 =====
+.DS_Store
+Thumbs.db

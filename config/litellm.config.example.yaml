@@ -1,0 +1,58 @@
+# LiteLLM Proxy 配置模板（示例 · 全占位符）
+# ============================================================
+# 这是给你照着填的「模板」，不含任何真实密钥。
+# 用法：复制一份改名为 litellm.config.yaml，再把所有
+#       YOUR_*_HERE 占位符换成你自己的值。
+# ⚠️ 改好的 litellm.config.yaml 请确保已被 .gitignore 忽略，
+#    千万不要提交进 Git！
+# ============================================================
+
+model_list:
+  # ----------------------------------------------------------
+  # 每一个 model_name 是「对客户端暴露的名字」。
+  # litellm_params 里填「真正的上游地址 + 密钥」。
+  # 同一个 model_name 可以写多条 → 自动组成池子做轮询/故障转移。
+  # ----------------------------------------------------------
+
+  # 示例 1：指向你自建的聚合网关（如 newapi 类面板）
+  - model_name: free-pool-chat
+    litellm_params:
+      model: openai/free-pool-chat
+      api_base: https://YOUR_AGGREGATOR_BASE_URL_HERE/v1
+      api_key: YOUR_AGGREGATOR_KEY_HERE
+    # 限速：每分钟最多几次请求，防止触发上游封禁
+    rpm: 60
+    tpm: 100000
+
+  # 示例 2：另一个免费源（官方免费额度 / 开发者计划）
+  - model_name: free-pool-chat
+    litellm_params:
+      model: openai/another-free-model
+      api_base: https://YOUR_SECOND_SOURCE_BASE_URL_HERE/v1
+      api_key: YOUR_SECOND_SOURCE_KEY_HERE
+    rpm: 30
+    tpm: 50000
+
+  # 示例 3：可再继续往下加更多免费源…
+  # - model_name: free-pool-chat
+  #   litellm_params:
+  #     model: openai/your-third-model
+  #     api_base: https://YOUR_THIRD_SOURCE_HERE/v1
+  #     api_key: YOUR_THIRD_KEY_HERE
+  #   rpm: 20
+
+# ------------------------------------------------------------
+# 通用设置
+# ------------------------------------------------------------
+litellm_settings:
+  # 打开后，某个上游挂了会自动切到同组的下一个（故障转移）
+  num_retries: 2
+  request_timeout: 120
+
+general_settings:
+  # ⚠️ 只监听本地回环，不要改成 0.0.0.0 裸奔到公网！
+  host: 127.0.0.1
+  port: 4000
+  # 对客户端要求的「本地密钥」，客户端随便填一个匹配的即可
+  # 用环境变量注入，避免明文写死在配置里
+  master_key: os.environ/LOCAL_MASTER_KEY
